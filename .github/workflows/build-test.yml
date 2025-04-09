@@ -1,8 +1,11 @@
 name: Build and test lab-cicd
-on: [push]
+push:
+  branches:
+    - main
 jobs:
   test:
     runs-on: ubuntu-22.04
+    name: Test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -12,12 +15,3 @@ jobs:
 
       - name: Run unit tests
         run: npm test
-
-
-
-
-  * Starts a job named test
-  * Runs it on `ubuntu-22.04`
-  * Uses the predefined Github action `actions/checkout@v4`
-  * Installs npm dependencies (Hint, use the the clean install command of npm)
-  * Runs unit tests
