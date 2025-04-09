@@ -1,0 +1,23 @@
+features:
+     - buildpack-stack=ubuntu-22
+   ingress:
+     rules:
+       - component:
+           name: <YOUR_USER>-lab-cicd
+         match:
+           path:
+             prefix: /
+   name: <YOUR_USER>-cicd-app
+   region: ams
+   services:
+     - health_check:
+         http_path: /
+       http_port: 80
+       image:
+         registry: <YOUR_USER>
+         registry_type: GHCR
+         repository: lab-cicd
+         tag: latest
+       instance_count: 1
+       instance_size_slug: apps-s-1vcpu-0.5gb
+       name: <YOUR_USER>-lab-cicd

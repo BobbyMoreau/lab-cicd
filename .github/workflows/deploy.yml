@@ -1,0 +1,22 @@
+name: Deploy lab-cicd
+
+   on:
+     # Automatically run this pipeline when our build pipeline completes
+     workflow_run:
+       workflows: [Build and test lab-cicd]
+       types: [completed]
+       branches: [main]
+
+   jobs:
+     deploy:
+       # Run on a ubuntu-22.04 VM image
+       runs-on: ubuntu-22.04
+       if: ${{ github.event.workflow_run.conclusion == 'success' }}
+       name: Deploy lab-cicd
+       # Environment variables
+       steps:
+         # Checkout our repository
+         - uses: actions/checkout@v4
+         - uses: digitalocean/app_action/deploy@v2
+           with:
+             token: ${{ secrets.DO_DEPLOY_SECRET }}
