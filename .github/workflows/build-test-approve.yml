@@ -1,0 +1,30 @@
+name: Auto PR & Merge Dev to Staging
+
+on:
+  push:
+    branches:
+      - feature # Runs when changes are pushed to `feature/dev`
+jobs:
+  test-and-merge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Create Pull Request and merge into staging
+        if: success() # Only if tests pass
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr create --base staging --head feature --title "Auto PR: Feature → Staging" --body "This PR was automatically created."
+          gh pr merge --merge
