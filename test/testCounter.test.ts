@@ -20,5 +20,5 @@ test('setupCounter increments the counter', () => {
   expect(mockElement.innerHTML).toBe('count is 1')
 
   mockElement.click()
-  expect(mockElement.innerHTML).toBe('count is 222')
+  expect(mockElement.innerHTML).toBe('count is 2')
 })
